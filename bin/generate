@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+APP_ROOT = File.expand_path('..', __dir__)
+
+require_relative File.join(APP_ROOT, 'utils', 'class_extensions.rb')
+MIGRATIONS_PATH = File.join(APP_ROOT, 'database', 'migrations')
+commands = %w[list help migration]
+command = ARGV[0]
+
+if command == "help" || command == "list"
+  puts "Available commands:"
+  commands.each { |com| puts com }
+elsif command == "migration"
+  name = ARGV[1]
+  sing_name = name
+  name.nil? ? raise(Exception, "Second argument must be name") : name = name.camelize.pluralize
+  fields = ARGV[2..]
+  filename = "#{Time.now.strftime('%Y%m%d%H%M%S%L')}_#{name.to_underscore}.rb"
+  file_content = "# frozen_string = true
+
+class #{sing_name} < DbMigration
+  @filename = \"#{filename.split('.').first}\"
+  @object_name = \"#{name}\"
+  @fields = [
+    "
+  f = fields.map do |field|
+    field_data = field.split(':')
+    field_name = field_data.first
+    field_type = field_data[1] || 'string'
+    { name: field_name, type: field_type }
+  end
+  file_content += "" + f.join(",#{$/}    ")
+  file_content += "
+  ]
+end
+"
+  File.open(File.join(MIGRATIONS_PATH, filename), 'w+') { |file| file.write(file_content) }
+  puts "Created migration #{filename.split('.').first}"
+end

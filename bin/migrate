@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+
+require 'yaml'
+require 'json'
+
+APP_ROOT = File.expand_path('..', __dir__)
+
+require_relative File.join(APP_ROOT, 'utils', 'class_extensions.rb')
+require_relative File.join(APP_ROOT, 'core', 'db_migration.rb')
+
+APP_ENV = ENV.fetch('APP_ENVIRONMENT', 'development')
+
+CONFIG_FILE_PATH = File.join(APP_ROOT, 'config', 'app.yml')
+CONFIG_FILE = YAML.load_file(CONFIG_FILE_PATH)
+
+DATABASE_DIR = File.join(APP_ROOT, 'database')
+
+DATABASE_FILE = File.join(DATABASE_DIR, CONFIG_FILE[APP_ENV]['database']['file'])
+
+db = JSON.load File.read(DATABASE_FILE)
+
+Dir[File.join(DATABASE_DIR, 'migrations', '*.rb')].each {|file| require(file)}
+DbMigration.descendants.each do |migration|
+  db = migration.new(db).migrate
+  File.open(DATABASE_FILE, "w+") { |file| file.puts db.to_json }
+end

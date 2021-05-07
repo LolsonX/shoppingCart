@@ -1,0 +1,7 @@
+development:
+  database:
+    file: development.json
+
+test:
+  database:
+    file: test.json

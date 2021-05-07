@@ -1,0 +1,2 @@
+# frozen_string = true
+
