@@ -8,6 +8,7 @@ module ShoppingCart
     # @param [String] name
     # @param [Float] price
     def initialize(product_code, name, price)
+      raise ArgumentError, "Price must be positive numeric" unless price.to_f.positive?
       @product_code = product_code
       @name = name
       @price = price
@@ -26,7 +27,7 @@ module ShoppingCart
       @price = new_price
     end
 
-    #@return [String]
+    # @return [String]
     def to_s
       "#{product_code} #{name}, cost: #{price}"
     end

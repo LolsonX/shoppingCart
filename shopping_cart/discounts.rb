@@ -39,7 +39,7 @@ module ShoppingCart
     end
 
     # Find total promotion
-    # @param [Float] sum
+    # @param [Numeric] sum
     # @return [Integer]
     def find_total_discount(sum)
       discount = @total_discounts.select { |disc| disc.threshold <= sum }.max{|disc| disc.threshold.to_i}
@@ -79,8 +79,8 @@ module ShoppingCart
       raise ArgumentError, "New value or new value factor must be specified" if new_value.nil? && new_val_factor.nil?
       raise ArgumentError, "New value must be numeric or numeric string" if !new_value.nil? && !new_value.is_number?
       raise ArgumentError, "New value factor must be numeric or numeric string" if !new_val_factor.nil? && !new_val_factor.is_number?
-      raise ArgumentError, "Minimal count must be integer" unless  minimal_count.is_a? Integer
-      raise ArgumentError, "Product must be a product code string" unless  product.is_a? String
+      raise ArgumentError, "Minimal count must be integer" unless minimal_count.is_a? Integer
+      raise ArgumentError, "Product must be a product code string" unless product.is_a? String
     end
   end
 

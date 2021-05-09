@@ -1,4 +1,4 @@
-#ShoppingCart Task Solution
+# ShoppingCart Task Solution
 
 ## Link to task
 <a href="https://github.com/chrisface/ruby_shopping_cart">Task Description</a>
@@ -13,7 +13,7 @@
 bundle install
 ```
 
-##Usage
+## Usage
 * To run described cases run ```ruby cases.rb```
 * To run mini application just type ```ruby main.rb``` and program should start
 * To run tests run ```rspec``` 

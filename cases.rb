@@ -1,14 +1,14 @@
-require_relative 'shopping_cart/shopping_cart'
+require_relative "shopping_cart/shopping_cart"
 
 include ShoppingCart
 @products = [
-    Product.new("001", "Red Scarf", 9.25),
-    Product.new("002", "Silver cufflinks", 45.00),
-    Product.new("003", "Silk Dress", 19.95)
+  Product.new("001", "Red Scarf", 9.25),
+  Product.new("002", "Silver cufflinks", 45.00),
+  Product.new("003", "Silk Dress", 19.95)
 ]
 @promotion_rules = Discounts.new
 @promotion_rules.add_product_count_discount("001", 2, new_value: 8.50)
-@promotion_rules.add_total_discount("X-Mas10", 0.10, 60)
+@promotion_rules.add_total_discount("X-Mas10", 0.10, 60.0)
 co = Checkout.new(@promotion_rules)
 
 co.scan(@products[0])
