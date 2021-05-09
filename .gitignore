@@ -1,1 +1,3 @@
-.idea
+.idea/
+.yardoc/
+Gemfile.lock
